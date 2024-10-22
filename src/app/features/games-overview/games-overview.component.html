@@ -1,1 +1,50 @@
-Hello
+@let games = games$ | async; @let isGameBeingCreated = isGameBeingCreated$ |
+async;
+
+<div class="w-full flex flex-col items-center">
+  <div class="my-3 px-3 w-full flex flex-row justify-between">
+    <div class="w-full text-3xl font-bold">Games:</div>
+    <button class="w-44" mat-flat-button (click)="onToggleGameCreationMode()">
+      {{ isGameBeingCreated ? "Cancel" : "New Game" }}
+    </button>
+  </div>
+  @if(isGameBeingCreated) {
+  <form [formGroup]="form" class="flex flex-col gap-3">
+    <mat-form-field>
+      <input placeholder="Game name" matInput formControlName="name" />
+    </mat-form-field>
+    <mat-form-field>
+      <input placeholder="Player 1 name" matInput formControlName="player1" />
+    </mat-form-field>
+    <mat-form-field>
+      <input placeholder="Player 2 name" matInput formControlName="player2" />
+    </mat-form-field>
+  </form>
+  <button
+    class="w-44 mb-3"
+    mat-flat-button
+    (click)="onGameSubmit()"
+    [disabled]="!this.form.valid"
+  >
+    Submit
+  </button>
+  }
+  <div class="px-3 w-full flex flex-col gap-3">
+    @for(game of games; track game.id) {
+    <div
+      class="px-3 py-3 w-full flex flex-row justify-between items-center bg-cyan-200 rounded-lg"
+    >
+      <div class="text-lg">
+        <span class="font-bold">Game: </span>
+        {{ game.name }}
+      </div>
+      <div class="text-base">
+        <span class="font-bold">Players: </span>
+        <span>{{ game.player1 }}</span>
+        and
+        <span>{{ game.player2 }}</span>
+      </div>
+    </div>
+    }
+  </div>
+</div>
