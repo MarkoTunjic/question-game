@@ -11,7 +11,8 @@ export class CreateNewGame {
     public name: string,
     public player1: string,
     public player2: string,
-    public gameType: GameTypes
+    public gameType: GameTypes,
+    public numberOfQuestions: number
   ) {}
 }
 

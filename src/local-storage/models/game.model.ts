@@ -6,4 +6,5 @@ export interface Game {
   player1: string;
   player2: string;
   gameType: GameTypes;
+  numberOfQuestions: number;
 }

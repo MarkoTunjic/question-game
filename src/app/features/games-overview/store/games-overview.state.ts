@@ -7,7 +7,7 @@ import {
   InitGames,
   ToggleGameCreationMode,
 } from './games-overview.actions';
-import { LocalService } from '../../../../local-storage/local-storage.service';
+import { GamesLocalService } from '../../../../local-storage/games-local-storage.service';
 import { GameTypes } from '../game-types.model';
 import { Router } from '@angular/router';
 
@@ -27,7 +27,7 @@ const defaults: GamesOverviewStateModel = {
 })
 @Injectable()
 export class GamesOverviewState {
-  private readonly localStorageService = inject(LocalService);
+  private readonly localStorageService = inject(GamesLocalService);
   private readonly router = inject(Router);
 
   @Selector()
@@ -56,7 +56,8 @@ export class GamesOverviewState {
       action.name,
       action.player1,
       action.player2,
-      action.gameType
+      action.gameType,
+      action.numberOfQuestions
     );
 
     ctx.patchState({

@@ -28,6 +28,7 @@ interface GameForm {
   player1: FormControl<string | null>;
   player2: FormControl<string | null>;
   gameType: FormControl<GameTypes | null>;
+  numberOfQuestions: FormControl<number | null>;
 }
 
 @Component({
@@ -58,6 +59,7 @@ export class GamesOverviewComponent implements OnInit {
     player1: ['', Validators.required],
     player2: ['', Validators.required],
     gameType: [GameTypes.QUESTIONS, Validators.required],
+    numberOfQuestions: [3, Validators.required],
   });
 
   public GameTypes = GameTypes;
@@ -79,7 +81,8 @@ export class GamesOverviewComponent implements OnInit {
         this.form.controls.name.value!,
         this.form.controls.player1.value!,
         this.form.controls.player2.value!,
-        this.form.controls.gameType.value!
+        this.form.controls.gameType.value!,
+        this.form.controls.numberOfQuestions.value!
       )
     );
     this.form.reset();
