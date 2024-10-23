@@ -3,10 +3,11 @@ import { GamesOverviewState } from './store/games-overview.state';
 import { Observable } from 'rxjs';
 import { Game } from '../../../local-storage/models/game.model';
 import { Store } from '@ngxs/store';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, KeyValuePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import {
   CreateNewGame,
+  GameSelected,
   InitGames,
   ToggleGameCreationMode,
 } from './store/games-overview.actions';
@@ -19,11 +20,14 @@ import {
 } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { GameTypes } from './game-types.model';
+import { MatSelectModule } from '@angular/material/select';
 
 interface GameForm {
   name: FormControl<string | null>;
   player1: FormControl<string | null>;
   player2: FormControl<string | null>;
+  gameType: FormControl<GameTypes | null>;
 }
 
 @Component({
@@ -35,6 +39,8 @@ interface GameForm {
     ReactiveFormsModule,
     MatInputModule,
     MatFormFieldModule,
+    MatSelectModule,
+    KeyValuePipe,
   ],
   templateUrl: './games-overview.component.html',
 })
@@ -51,7 +57,10 @@ export class GamesOverviewComponent implements OnInit {
     name: ['', Validators.required],
     player1: ['', Validators.required],
     player2: ['', Validators.required],
+    gameType: [GameTypes.QUESTIONS, Validators.required],
   });
+
+  public GameTypes = GameTypes;
 
   ngOnInit(): void {
     this.store.dispatch(new InitGames());
@@ -69,9 +78,14 @@ export class GamesOverviewComponent implements OnInit {
       new CreateNewGame(
         this.form.controls.name.value!,
         this.form.controls.player1.value!,
-        this.form.controls.player2.value!
+        this.form.controls.player2.value!,
+        this.form.controls.gameType.value!
       )
     );
     this.form.reset();
+  }
+
+  onGameClick(gameId: string) {
+    this.store.dispatch(new GameSelected(gameId));
   }
 }

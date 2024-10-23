@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Game } from './models/game.model';
+import { GameTypes } from '../app/features/games-overview/game-types.model';
 
 const GAMES_LOCAL_STORAGE_KEY = 'games';
 
@@ -9,7 +10,12 @@ const GAMES_LOCAL_STORAGE_KEY = 'games';
 export class LocalService {
   constructor() {}
 
-  public saveGame(name: string, player1: string, player2: string): string {
+  public saveGame(
+    name: string,
+    player1: string,
+    player2: string,
+    gameType: GameTypes
+  ): string {
     const gamesString = localStorage.getItem(GAMES_LOCAL_STORAGE_KEY);
     let games: Game[];
     if (gamesString == null) {
@@ -18,7 +24,7 @@ export class LocalService {
       games = JSON.parse(gamesString) as Game[];
     }
     const newId = crypto.randomUUID();
-    games.push({ id: newId, name, player1, player2 });
+    games.push({ id: newId, name, player1, player2, gameType });
     localStorage.setItem(GAMES_LOCAL_STORAGE_KEY, JSON.stringify(games));
     return newId;
   }

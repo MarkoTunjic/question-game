@@ -19,6 +19,16 @@ async;
     <mat-form-field>
       <input placeholder="Player 2 name" matInput formControlName="player2" />
     </mat-form-field>
+    <mat-form-field>
+      <mat-label>Game type</mat-label>
+      <mat-select>
+        @for (gameType of GameTypes | keyvalue; track gameType) {
+        <mat-option formControlName="gameType" [value]="gameType.key">{{
+          gameType.value
+        }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
   </form>
   <button
     class="w-44 mb-3"
@@ -33,10 +43,11 @@ async;
     @for(game of games; track game.id) {
     <div
       class="px-3 py-3 w-full flex flex-row justify-between items-center bg-cyan-200 rounded-lg"
+      (click)="onGameClick(game.id)"
     >
       <div class="text-lg">
         <span class="font-bold">Game: </span>
-        {{ game.name }}
+        {{ game.name }}, {{ game.gameType }}
       </div>
       <div class="text-base">
         <span class="font-bold">Players: </span>

@@ -3,10 +3,13 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Game } from '../../../../local-storage/models/game.model';
 import {
   CreateNewGame,
+  GameSelected,
   InitGames,
   ToggleGameCreationMode,
 } from './games-overview.actions';
 import { LocalService } from '../../../../local-storage/local-storage.service';
+import { GameTypes } from '../game-types.model';
+import { Router } from '@angular/router';
 
 interface GamesOverviewStateModel {
   games: Game[];
@@ -25,6 +28,7 @@ const defaults: GamesOverviewStateModel = {
 @Injectable()
 export class GamesOverviewState {
   private readonly localStorageService = inject(LocalService);
+  private readonly router = inject(Router);
 
   @Selector()
   static getGames(state: GamesOverviewStateModel): Game[] {
@@ -51,7 +55,8 @@ export class GamesOverviewState {
     this.localStorageService.saveGame(
       action.name,
       action.player1,
-      action.player2
+      action.player2,
+      action.gameType
     );
 
     ctx.patchState({
@@ -66,5 +71,22 @@ export class GamesOverviewState {
     ctx.patchState({
       gameCreatingMode: !gameCreatingMode,
     });
+  }
+
+  @Action(GameSelected)
+  gameSelected(
+    ctx: StateContext<GamesOverviewStateModel>,
+    action: GameSelected
+  ) {
+    const { games } = ctx.getState();
+    const selectedGame = games.find((game) => game.id === action.gameId);
+
+    switch (selectedGame?.gameType) {
+      case GameTypes.QUESTIONS:
+        void this.router.navigate([`games/question-game/${action.gameId}`]);
+        break;
+      case GameTypes.TWO_TRUTHS_ONE_LIE:
+        break;
+    }
   }
 }
