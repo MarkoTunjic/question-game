@@ -9,7 +9,7 @@ async;
     </button>
   </div>
   @if(isGameBeingCreated) {
-  <form [formGroup]="form" class="flex flex-col gap-3">
+  <form [formGroup]="form" class="px-3 w-full flex flex-col gap-3">
     <mat-form-field>
       <input placeholder="Game name" matInput formControlName="name" />
     </mat-form-field>
@@ -21,11 +21,9 @@ async;
     </mat-form-field>
     <mat-form-field>
       <mat-label>Game type</mat-label>
-      <mat-select>
+      <mat-select formControlName="gameType">
         @for (gameType of GameTypes | keyvalue; track gameType) {
-        <mat-option formControlName="gameType" [value]="gameType.key">{{
-          gameType.value
-        }}</mat-option>
+        <mat-option [value]="gameType.key">{{ gameType.value }}</mat-option>
         }
       </mat-select>
     </mat-form-field>

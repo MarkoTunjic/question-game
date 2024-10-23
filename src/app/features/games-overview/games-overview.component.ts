@@ -22,6 +22,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { GameTypes } from './game-types.model';
 import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 
 interface GameForm {
   name: FormControl<string | null>;
@@ -42,6 +43,8 @@ interface GameForm {
     MatFormFieldModule,
     MatSelectModule,
     KeyValuePipe,
+    MatSelectModule,
+    MatOptionModule,
   ],
   templateUrl: './games-overview.component.html',
 })
