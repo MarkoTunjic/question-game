@@ -13,7 +13,10 @@ import { AsyncPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import {
   BackToGamesOverview,
+  SubmitPlayerPoints,
   SubmitPlayerQuestions,
+  UnansweredQuestion,
+  UnoReverseUsed,
 } from './store/question-game.actions';
 import {
   FormArray,
@@ -43,17 +46,45 @@ export class QuestionGameComponent implements OnInit {
   private readonly store = inject(Store);
   private readonly destroyRef = inject(DestroyRef);
 
-  game$: Observable<Game | null> = this.store.select(QuestionGameState.getGame);
+  game$: Observable<Game | undefined> = this.store.select(
+    QuestionGameState.getGame
+  );
   player1InputtedQuestions$: Observable<boolean> = this.store.select(
     QuestionGameState.player1InputtedQuestions
   );
   player2InputtedQuestions$: Observable<boolean> = this.store.select(
     QuestionGameState.player2InputtedQuestions
   );
+  currentPlayerUsedUnoReverse$: Observable<boolean | undefined> =
+    this.store.select(QuestionGameState.currentPlayerUsedUnoReverse);
+  currentQuestion$: Observable<string | undefined> = this.store.select(
+    QuestionGameState.getCurrentQuestion
+  );
+  currentPlayer$: Observable<string | undefined> = this.store.select(
+    QuestionGameState.getCurrentPlayer
+  );
+  isGameOver$: Observable<boolean | undefined> = this.store.select(
+    QuestionGameState.isGameOver
+  );
+  player1Score$: Observable<number | undefined> = this.store.select(
+    QuestionGameState.getPlayer1Score
+  );
+  player2Score$: Observable<number | undefined> = this.store.select(
+    QuestionGameState.getPlayer2Score
+  );
+  winner$: Observable<string | undefined> = this.store.select(
+    QuestionGameState.getWinner
+  );
 
-  public playerQuestions = new FormGroup({
+  playerQuestions = new FormGroup({
     questions: new FormArray<FormControl<string | null>>([]),
   });
+
+  pointsControl = new FormControl<number>(1, [
+    Validators.required,
+    Validators.max(3),
+    Validators.min(1),
+  ]);
 
   ngOnInit(): void {
     this.game$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((game) => {
@@ -80,5 +111,17 @@ export class QuestionGameComponent implements OnInit {
       )
     );
     this.playerQuestions.reset();
+  }
+
+  onPointsSubmit() {
+    this.store.dispatch(new SubmitPlayerPoints(this.pointsControl.value!));
+  }
+
+  onUnanswered() {
+    this.store.dispatch(new UnansweredQuestion());
+  }
+
+  onUnoReverse() {
+    this.store.dispatch(new UnoReverseUsed());
   }
 }

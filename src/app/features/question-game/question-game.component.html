@@ -1,7 +1,12 @@
 @let game = game$ | async; @let player1InputtedQuestions =
 player1InputtedQuestions$ | async; @let player2InputtedQuestions =
-player2InputtedQuestions$ | async;
-<div class="flex flex-col items-center">
+player2InputtedQuestions$ | async; @let currentPlayerUsedUnoReverse =
+currentPlayerUsedUnoReverse$ | async; @let currentQuestion = currentQuestion$ |
+async; @let currentPlayer = currentPlayer$ | async; @let isGameOver =
+isGameOver$ | async; @let player1Score = player1Score$ | async; @let
+player2Score = player2Score$ | async; @let winner = winner$ | async;
+
+<div class="h-full flex flex-col items-center">
   <div class="w-full flex flex-row items-center justify-between p-3">
     <button (click)="onBackButtonClick()" mat-flat-button>Back</button>
     <div class="font-bold text-2xl">
@@ -10,7 +15,7 @@ player2InputtedQuestions$ | async;
     <div class="w-24"></div>
   </div>
   @if(!player1InputtedQuestions) {
-  <div class="text-xl mb-3">Questions for {{ game?.player1 }}</div>
+  <div class="text-xl mb-3">Questions from {{ game?.player1 }}</div>
   <form [formGroup]="playerQuestions" class="w-full">
     <div
       formArrayName="questions"
@@ -39,7 +44,7 @@ player2InputtedQuestions$ | async;
     Submit
   </button>
   } @if(player1InputtedQuestions && !player2InputtedQuestions) {
-  <div class="text-xl mb-3">Questions for {{ game?.player2 }}</div>
+  <div class="text-xl mb-3">Questions from {{ game?.player2 }}</div>
   <form [formGroup]="playerQuestions" class="w-full">
     <div
       formArrayName="questions"
@@ -67,5 +72,50 @@ player2InputtedQuestions$ | async;
   >
     Submit
   </button>
+  } @if(player1InputtedQuestions && player2InputtedQuestions && !isGameOver) {
+  <div class="h-full w-full px-3 flex flex-col items-center justify-center">
+    @if(!currentPlayerUsedUnoReverse) {
+    <button class="mb-3" mat-flat-button (click)="onUnoReverse()">
+      Uno reverse
+    </button>
+    }
+    <div class="text-lg font-bold mb-3">Question for {{ currentPlayer }}:</div>
+    <div
+      class="flex items-center justify-center bg-gray-200 w-full rounded-xl shadow-xl min-h-[30%] p-3"
+    >
+      {{ currentQuestion }}
+    </div>
+    <div class="flex items-center gap-3 mx-3 mt-5">
+      <mat-form-field>
+        <input
+          placeholder="Points"
+          matInput
+          [formControl]="pointsControl"
+          type="number"
+        />
+      </mat-form-field>
+      <button
+        mat-flat-button
+        (click)="onPointsSubmit()"
+        [disabled]="!pointsControl.valid"
+      >
+        Submit
+      </button>
+      <button class="!bg-red-500" mat-flat-button (click)="onUnanswered()">
+        Unanswered
+      </button>
+    </div>
+  </div>
+  } @if(isGameOver) {
+  <div class="w-full h-full flex flex-col justify-center items-center">
+    <div class="text-3xl font-bold">{{ winner }}</div>
+    <div class="text-xl">
+      <span class="font-bold">{{ game?.player1 }}:</span> {{ player1Score }}
+    </div>
+    <div class="text-xl">
+      <span class="font-bold">{{ game?.player2 }}:</span> {{ player2Score }}
+    </div>
+  </div>
+
   }
 </div>

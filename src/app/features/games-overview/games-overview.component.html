@@ -23,7 +23,7 @@ async;
       <mat-label>Game type</mat-label>
       <mat-select formControlName="gameType">
         @for (gameType of GameTypes | keyvalue; track gameType) {
-        <mat-option [value]="gameType.key">{{ gameType.value }}</mat-option>
+        <mat-option [value]="gameType.value">{{ gameType.value }}</mat-option>
         }
       </mat-select>
     </mat-form-field>

@@ -13,3 +13,21 @@ export class SubmitPlayerQuestions {
 
   constructor(public questions: string[]) {}
 }
+
+export class SubmitPlayerPoints {
+  static readonly type = '[QuestionGame] SubmitPlayerPoints';
+
+  constructor(public points: number) {}
+}
+
+export class UnansweredQuestion {
+  static readonly type = '[QuestionGame] UnansweredQuestion';
+
+  constructor() {}
+}
+
+export class UnoReverseUsed {
+  static readonly type = '[QuestionGame] UnoReverseUsed';
+
+  constructor() {}
+}
