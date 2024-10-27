@@ -4,9 +4,14 @@ async;
 <div class="w-full flex flex-col items-center">
   <div class="my-3 px-3 w-full flex flex-row justify-between">
     <div class="w-full text-3xl font-bold">Games:</div>
-    <button class="w-44" mat-flat-button (click)="onToggleGameCreationMode()">
-      {{ isGameBeingCreated ? "Cancel" : "New Game" }}
-    </button>
+    <div class="flex gap-3 items-center justify-center">
+      <button class="w-32" mat-flat-button (click)="onToggleGameCreationMode()">
+        {{ isGameBeingCreated ? "Cancel" : "New Game" }}
+      </button>
+      <button class="w-32 !bg-red-500" mat-flat-button (click)="onDeleteAll()">
+        Delete all
+      </button>
+    </div>
   </div>
   @if(isGameBeingCreated) {
   <form [formGroup]="form" class="px-3 w-full flex flex-col gap-3">
@@ -47,21 +52,31 @@ async;
   }
   <div class="px-3 w-full flex flex-col gap-3">
     @for(game of games; track game.id) {
-    <div
-      class="px-3 py-3 w-full flex flex-row justify-between items-center bg-cyan-200 rounded-lg"
-      (click)="onGameClick(game.id)"
-    >
-      <div class="text-lg">
-        <span class="font-bold">Game: </span>
-        {{ game.name }}, {{ game.gameType }}
+    <div class="flex items-center justify-between gap-3">
+      <div
+        class="px-3 py-3 w-full flex flex-row justify-between items-center bg-cyan-200 rounded-lg"
+        (click)="onGameClick(game.id)"
+      >
+        <div class="text-lg">
+          <span class="font-bold">Game: </span>
+          {{ game.name }}, {{ game.gameType }}
+        </div>
+        <div class="text-base">
+          <span class="font-bold">Players: </span>
+          <span>{{ game.player1 }}</span>
+          and
+          <span>{{ game.player2 }}</span>
+        </div>
       </div>
-      <div class="text-base">
-        <span class="font-bold">Players: </span>
-        <span>{{ game.player1 }}</span>
-        and
-        <span>{{ game.player2 }}</span>
-      </div>
+      <button
+        class="!bg-red-500 text-black"
+        mat-flat-button
+        (click)="onGameDelete(game.id)"
+      >
+        Delete
+      </button>
     </div>
+
     }
   </div>
 </div>

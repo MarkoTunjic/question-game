@@ -7,6 +7,8 @@ import { AsyncPipe, KeyValuePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import {
   CreateNewGame,
+  DeleteAll,
+  DeleteGame,
   GameSelected,
   InitGames,
   ToggleGameCreationMode,
@@ -93,5 +95,13 @@ export class GamesOverviewComponent implements OnInit {
 
   onGameClick(gameId: string) {
     this.store.dispatch(new GameSelected(gameId));
+  }
+
+  onGameDelete(gameId: string) {
+    this.store.dispatch(new DeleteGame(gameId));
+  }
+
+  onDeleteAll() {
+    this.store.dispatch(new DeleteAll());
   }
 }

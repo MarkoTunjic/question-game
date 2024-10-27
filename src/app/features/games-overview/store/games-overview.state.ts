@@ -3,6 +3,8 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Game } from '../../../../local-storage/models/game.model';
 import {
   CreateNewGame,
+  DeleteAll,
+  DeleteGame,
   GameSelected,
   InitGames,
   ToggleGameCreationMode,
@@ -89,5 +91,21 @@ export class GamesOverviewState {
       case GameTypes.TWO_TRUTHS_ONE_LIE:
         break;
     }
+  }
+
+  @Action(DeleteGame)
+  deleteGame(ctx: StateContext<GamesOverviewStateModel>, action: DeleteGame) {
+    this.localStorageService.deleteById(action.gameId);
+    ctx.patchState({
+      games: this.localStorageService.getGames(),
+    });
+  }
+
+  @Action(DeleteAll)
+  deleteAll(ctx: StateContext<GamesOverviewStateModel>) {
+    this.localStorageService.deleteAll();
+    ctx.patchState({
+      games: this.localStorageService.getGames(),
+    });
   }
 }

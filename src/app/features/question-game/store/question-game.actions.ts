@@ -17,7 +17,7 @@ export class SubmitPlayerQuestions {
 export class SubmitPlayerPoints {
   static readonly type = '[QuestionGame] SubmitPlayerPoints';
 
-  constructor(public points: number) {}
+  constructor(public points: number, public questionPoints: number) {}
 }
 
 export class UnansweredQuestion {

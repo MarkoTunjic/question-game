@@ -25,3 +25,15 @@ export class GameSelected {
 
   constructor(public gameId: string) {}
 }
+
+export class DeleteGame {
+  static readonly type = '[GamesOverview] DeleteGame';
+
+  constructor(public gameId: string) {}
+}
+
+export class DeleteAll {
+  static readonly type = '[GamesOverview] DeleteAll';
+
+  constructor() {}
+}

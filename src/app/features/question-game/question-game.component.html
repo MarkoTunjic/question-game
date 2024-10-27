@@ -85,25 +85,40 @@ player2Score = player2Score$ | async; @let winner = winner$ | async;
     >
       {{ currentQuestion }}
     </div>
-    <div class="flex items-center gap-3 mx-3 mt-5">
-      <mat-form-field>
-        <input
-          placeholder="Points"
-          matInput
-          [formControl]="pointsControl"
-          type="number"
-        />
-      </mat-form-field>
-      <button
-        mat-flat-button
-        (click)="onPointsSubmit()"
-        [disabled]="!pointsControl.valid"
+    <div class="w-full flex flex-col items-center justify-center gap-3">
+      <form
+        [formGroup]="pointsForm"
+        class="w-full flex items-center gap-3 mx-3 mt-5"
       >
-        Submit
-      </button>
-      <button class="!bg-red-500" mat-flat-button (click)="onUnanswered()">
-        Unanswered
-      </button>
+        <mat-form-field>
+          <input
+            placeholder="Answer points"
+            matInput
+            formControlName="answerPoints"
+            type="number"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            placeholder="Question points"
+            matInput
+            formControlName="questionPoints"
+            type="number"
+          />
+        </mat-form-field>
+      </form>
+      <div class="flex items-center gap-3 mx-3 mt-5">
+        <button
+          mat-flat-button
+          (click)="onPointsSubmit()"
+          [disabled]="!pointsForm.valid"
+        >
+          Submit
+        </button>
+        <button class="!bg-red-500" mat-flat-button (click)="onUnanswered()">
+          Unanswered
+        </button>
+      </div>
     </div>
   </div>
   } @if(isGameOver) {

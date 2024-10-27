@@ -180,11 +180,19 @@ export class QuestionGameState {
     action: SubmitPlayerPoints
   ) {
     const { currentQuestionGame, game } = ctx.getState();
-    const { points } = action;
+    const { points, questionPoints } = action;
     if (!currentQuestionGame?.player2AnsweredCurrentQuestion) {
       this.questionGamesService.submitPlayer2Points(game?.id!, points);
+      this.questionGamesService.submitPlayer1QuestionPoints(
+        game?.id!,
+        questionPoints
+      );
     } else if (!currentQuestionGame?.player1AnsweredCurrentQuestion) {
       this.questionGamesService.submitPlayer1Points(game?.id!, points);
+      this.questionGamesService.submitPlayer2QuestionPoints(
+        game?.id!,
+        questionPoints
+      );
       this.questionGamesService.nextQuestion(game?.id!);
     }
 

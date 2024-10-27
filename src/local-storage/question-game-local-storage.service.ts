@@ -116,6 +116,32 @@ export class QuestionGamesLocalService {
     );
   }
 
+  submitPlayer1QuestionPoints(gameId: string, points: number) {
+    const questionGame = this.findQuestionGameByGameId(gameId)!;
+    let questionGames = this.getQuestionGames();
+    questionGames = questionGames.filter((game) => game.id !== questionGame.id);
+    questionGame.player1Score += points;
+
+    questionGames.push(questionGame);
+    localStorage.setItem(
+      QUESTION_GAMES_LOCAL_STORAGE_KEY,
+      JSON.stringify(questionGames)
+    );
+  }
+
+  submitPlayer2QuestionPoints(gameId: string, points: number) {
+    const questionGame = this.findQuestionGameByGameId(gameId)!;
+    let questionGames = this.getQuestionGames();
+    questionGames = questionGames.filter((game) => game.id !== questionGame.id);
+    questionGame.player2Score += points;
+
+    questionGames.push(questionGame);
+    localStorage.setItem(
+      QUESTION_GAMES_LOCAL_STORAGE_KEY,
+      JSON.stringify(questionGames)
+    );
+  }
+
   nextQuestion(gameId: string) {
     const questionGame = this.findQuestionGameByGameId(gameId)!;
     let questionGames = this.getQuestionGames();
@@ -158,5 +184,23 @@ export class QuestionGamesLocalService {
       QUESTION_GAMES_LOCAL_STORAGE_KEY,
       JSON.stringify(questionGames)
     );
+  }
+
+  deleteByGameId(gameId: string) {
+    const questionGame = this.findQuestionGameByGameId(gameId);
+    if (questionGame == undefined) {
+      return;
+    }
+    let questionGames = this.getQuestionGames();
+    questionGames = questionGames.filter((game) => game.id !== questionGame.id);
+
+    localStorage.setItem(
+      QUESTION_GAMES_LOCAL_STORAGE_KEY,
+      JSON.stringify(questionGames)
+    );
+  }
+
+  deleteAll() {
+    localStorage.removeItem(QUESTION_GAMES_LOCAL_STORAGE_KEY);
   }
 }

@@ -20,6 +20,7 @@ import {
 } from './store/question-game.actions';
 import {
   FormArray,
+  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -28,6 +29,11 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+
+export interface PointsFormModel {
+  answerPoints: FormControl<number | null>;
+  questionPoints: FormControl<number | null>;
+}
 
 @Component({
   selector: 'app-question-game',
@@ -45,6 +51,7 @@ import { MatInputModule } from '@angular/material/input';
 export class QuestionGameComponent implements OnInit {
   private readonly store = inject(Store);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly fb = inject(FormBuilder);
 
   game$: Observable<Game | undefined> = this.store.select(
     QuestionGameState.getGame
@@ -80,11 +87,18 @@ export class QuestionGameComponent implements OnInit {
     questions: new FormArray<FormControl<string | null>>([]),
   });
 
-  pointsControl = new FormControl<number>(1, [
-    Validators.required,
-    Validators.max(3),
-    Validators.min(1),
-  ]);
+  pointsForm: FormGroup<PointsFormModel> = this.fb.group({
+    answerPoints: new FormControl<number>(1, [
+      Validators.required,
+      Validators.max(3),
+      Validators.min(1),
+    ]),
+    questionPoints: new FormControl<number>(1, [
+      Validators.required,
+      Validators.max(3),
+      Validators.min(1),
+    ]),
+  });
 
   ngOnInit(): void {
     this.game$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((game) => {
@@ -114,7 +128,12 @@ export class QuestionGameComponent implements OnInit {
   }
 
   onPointsSubmit() {
-    this.store.dispatch(new SubmitPlayerPoints(this.pointsControl.value!));
+    this.store.dispatch(
+      new SubmitPlayerPoints(
+        this.pointsForm.controls.answerPoints.value!,
+        this.pointsForm.controls.questionPoints.value!
+      )
+    );
   }
 
   onUnanswered() {
