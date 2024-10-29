@@ -88,9 +88,9 @@ player2Score = player2Score$ | async; @let winner = winner$ | async;
     <div class="w-full flex flex-col items-center justify-center gap-3">
       <form
         [formGroup]="pointsForm"
-        class="w-full flex items-center gap-3 mx-3 mt-5"
+        class="w-full flex items-center gap-3 px-3 mt-5"
       >
-        <div class="flex flex-col items-center gap-3">
+        <div class="flex flex-col gap-3 w-[50%]">
           <div>Answer:</div>
           <mat-form-field>
             <input
@@ -101,7 +101,7 @@ player2Score = player2Score$ | async; @let winner = winner$ | async;
             />
           </mat-form-field>
         </div>
-        <div class="flex flex-col items-center gap-3">
+        <div class="flex flex-col gap-3 w-[50%]">
           <div>Question:</div>
           <mat-form-field>
             <input
