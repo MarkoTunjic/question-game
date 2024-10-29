@@ -90,22 +90,28 @@ player2Score = player2Score$ | async; @let winner = winner$ | async;
         [formGroup]="pointsForm"
         class="w-full flex items-center gap-3 mx-3 mt-5"
       >
-        <mat-form-field>
-          <input
-            placeholder="Answer points"
-            matInput
-            formControlName="answerPoints"
-            type="number"
-          />
-        </mat-form-field>
-        <mat-form-field>
-          <input
-            placeholder="Question points"
-            matInput
-            formControlName="questionPoints"
-            type="number"
-          />
-        </mat-form-field>
+        <div class="flex flex-col items-center gap-3">
+          <div>Answer:</div>
+          <mat-form-field>
+            <input
+              placeholder="Answer points"
+              matInput
+              formControlName="answerPoints"
+              type="number"
+            />
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col items-center gap-3">
+          <div>Question:</div>
+          <mat-form-field>
+            <input
+              placeholder="Question points"
+              matInput
+              formControlName="questionPoints"
+              type="number"
+            />
+          </mat-form-field>
+        </div>
       </form>
       <div class="flex items-center gap-3 mx-3 mt-5">
         <button
