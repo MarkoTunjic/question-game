@@ -224,9 +224,9 @@ export class QuestionGameState {
   unoReverseUsed(ctx: StateContext<QuestionGameStateModel>) {
     const { currentQuestionGame, game } = ctx.getState();
     if (!currentQuestionGame?.player2AnsweredCurrentQuestion) {
-      this.questionGamesService.player1UsedUnoReverse(game?.id!);
-    } else if (!currentQuestionGame?.player1AnsweredCurrentQuestion) {
       this.questionGamesService.player2UsedUnoReverse(game?.id!);
+    } else if (!currentQuestionGame?.player1AnsweredCurrentQuestion) {
+      this.questionGamesService.player1UsedUnoReverse(game?.id!);
     }
 
     ctx.patchState({
