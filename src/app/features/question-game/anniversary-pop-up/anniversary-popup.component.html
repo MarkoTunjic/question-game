@@ -1,0 +1,32 @@
+: `
+<!-- Full-screen gradient background -->
+<div
+    class="fixed inset-0 bg-gradient-to-br from-sky-200 via-blue-200 to-cyan-300 bg-[length:200%_200%] animate-gradientMove z-0">
+</div>
+
+<!-- Floating octopuses -->
+<div class="absolute inset-0 overflow-hidden z-10">
+    <div class="octo" style="left: 5%; animation-delay: 0s;">🐙</div>
+    <div class="octo" style="left: 15%; animation-delay: 1s;">🐙</div>
+    <div class="octo" style="left: 30%; animation-delay: 2s;">🐙</div>
+    <div class="octo" style="left: 45%; animation-delay: 3s;">🐙</div>
+    <div class="octo" style="left: 60%; animation-delay: 4s;">🐙</div>
+    <div class="octo" style="left: 70%; animation-delay: 0.5s;">🐙</div>
+    <div class="octo" style="left: 80%; animation-delay: 2.5s;">🐙</div>
+    <div class="octo" style="left: 90%; animation-delay: 1.5s;">🐙</div>
+</div>
+
+<!-- Popup card -->
+<div class="fixed inset-0 flex items-center justify-center z-20 animate-fadeIn">
+    <div
+        class="bg-gradient-to-br from-sky-400 via-cyan-400 to-blue-500 text-white text-center rounded-3xl p-6 md:p-8 shadow-2xl transform scale-95 animate-popup backdrop-blur-md z-30 max-w-xs sm:max-w-sm md:max-w-md">
+        <div class="text-3xl font-semibold mb-4 sm:mb-6 animate-textGlow">
+            Sretna godišnjica, volim te puno curka!
+            <span class="inline-block animate-heartPulse">💙</span>
+        </div>
+        <button (click)="close()"
+            class="bg-white text-sky-600 font-semibold py-2 px-5 rounded-full hover:bg-sky-50 transition-transform transform hover:scale-105 duration-300 text-sm sm:text-base">
+            Next
+        </button>
+    </div>
+</div>

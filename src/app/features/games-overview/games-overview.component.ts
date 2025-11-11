@@ -94,6 +94,7 @@ export class GamesOverviewComponent implements OnInit {
   }
 
   onGameClick(gameId: string) {
+    console.log('hello')
     this.store.dispatch(new GameSelected(gameId));
   }
 

@@ -1,11 +1,19 @@
-@let game = game$ | async; @let player1InputtedQuestions =
-player1InputtedQuestions$ | async; @let player2InputtedQuestions =
-player2InputtedQuestions$ | async; @let currentPlayerUsedUnoReverse =
-currentPlayerUsedUnoReverse$ | async; @let currentQuestion = currentQuestion$ |
-async; @let currentPlayer = currentPlayer$ | async; @let isGameOver =
-isGameOver$ | async; @let player1Score = player1Score$ | async; @let
-player2Score = player2Score$ | async; @let winner = winner$ | async;
+@let game = game$ | async;
+@let player1InputtedQuestions =player1InputtedQuestions$ | async;
+@let player2InputtedQuestions =player2InputtedQuestions$ | async;
+@let currentPlayerUsedUnoReverse =currentPlayerUsedUnoReverse$ | async;
+@let currentQuestion = currentQuestion$ | async;
+@let currentPlayer = currentPlayer$ | async;
+@let isGameOver = isGameOver$ | async;
+@let player1Score = player1Score$ | async;
+@let player2Score = player2Score$ | async;
+@let winner = winner$ | async;
+@let showPopup = showPopup$ | async;
 
+
+@if(showPopup) {
+<app-anniversary-popup (closed)="onPopupClose()"></app-anniversary-popup>
+} @else {
 <div class="h-full flex flex-col items-center">
   <div class="w-full flex flex-row items-center justify-between p-3">
     <button (click)="onBackButtonClick()" mat-flat-button>Back</button>
@@ -17,59 +25,33 @@ player2Score = player2Score$ | async; @let winner = winner$ | async;
   @if(!player1InputtedQuestions) {
   <div class="text-xl mb-3">Questions from {{ game?.player1 }}</div>
   <form [formGroup]="playerQuestions" class="w-full">
-    <div
-      formArrayName="questions"
-      class="w-full flex flex-col gap-3 items-center"
-    >
+    <div formArrayName="questions" class="w-full flex flex-col gap-3 items-center">
       @for(currentControl of playerQuestions.controls.questions.controls; track
       currentControl){
       <mat-form-field class="w-full px-3">
         <mat-label>Question {{ $index + 1 }}</mat-label>
-        <textarea
-          class="w-full"
-          matInput
-          type="text"
-          [formControlName]="$index"
-        ></textarea>
+        <textarea class="w-full" matInput type="text" [formControlName]="$index"></textarea>
       </mat-form-field>
       }
     </div>
   </form>
-  <button
-    class="w-44 mb-3"
-    mat-flat-button
-    (click)="onQuestionsSubmit()"
-    [disabled]="!playerQuestions.valid"
-  >
+  <button class="w-44 mb-3" mat-flat-button (click)="onQuestionsSubmit()" [disabled]="!playerQuestions.valid">
     Submit
   </button>
   } @if(player1InputtedQuestions && !player2InputtedQuestions) {
   <div class="text-xl mb-3">Questions from {{ game?.player2 }}</div>
   <form [formGroup]="playerQuestions" class="w-full">
-    <div
-      formArrayName="questions"
-      class="w-full flex flex-col gap-3 items-center"
-    >
+    <div formArrayName="questions" class="w-full flex flex-col gap-3 items-center">
       @for(currentControl of playerQuestions.controls.questions.controls; track
       currentControl){
       <mat-form-field class="w-full px-3">
         <mat-label>Question {{ $index + 1 }}</mat-label>
-        <textarea
-          class="w-full"
-          matInput
-          type="text"
-          [formControlName]="$index"
-        ></textarea>
+        <textarea class="w-full" matInput type="text" [formControlName]="$index"></textarea>
       </mat-form-field>
       }
     </div>
   </form>
-  <button
-    class="w-44 mb-3"
-    mat-flat-button
-    (click)="onQuestionsSubmit()"
-    [disabled]="!playerQuestions.valid"
-  >
+  <button class="w-44 mb-3" mat-flat-button (click)="onQuestionsSubmit()" [disabled]="!playerQuestions.valid">
     Submit
   </button>
   } @if(player1InputtedQuestions && player2InputtedQuestions && !isGameOver) {
@@ -80,45 +62,26 @@ player2Score = player2Score$ | async; @let winner = winner$ | async;
     </button>
     }
     <div class="text-lg font-bold mb-3">Question for {{ currentPlayer }}:</div>
-    <div
-      class="flex items-center justify-center bg-gray-200 w-full rounded-xl shadow-xl min-h-[30%] p-3"
-    >
+    <div class="flex items-center justify-center bg-gray-200 w-full rounded-xl shadow-xl min-h-[30%] p-3">
       {{ currentQuestion }}
     </div>
     <div class="w-full flex flex-col items-center justify-center gap-3">
-      <form
-        [formGroup]="pointsForm"
-        class="w-full flex items-center gap-3 px-3 mt-5"
-      >
+      <form [formGroup]="pointsForm" class="w-full flex items-center gap-3 px-3 mt-5">
         <div class="flex flex-col gap-3 w-[50%]">
           <div>Answer:</div>
           <mat-form-field>
-            <input
-              placeholder="Answer points"
-              matInput
-              formControlName="answerPoints"
-              type="number"
-            />
+            <input placeholder="Answer points" matInput formControlName="answerPoints" type="number" />
           </mat-form-field>
         </div>
         <div class="flex flex-col gap-3 w-[50%]">
           <div>Question:</div>
           <mat-form-field>
-            <input
-              placeholder="Question points"
-              matInput
-              formControlName="questionPoints"
-              type="number"
-            />
+            <input placeholder="Question points" matInput formControlName="questionPoints" type="number" />
           </mat-form-field>
         </div>
       </form>
       <div class="flex items-center gap-3 mx-3 mt-5">
-        <button
-          mat-flat-button
-          (click)="onPointsSubmit()"
-          [disabled]="!pointsForm.valid"
-        >
+        <button mat-flat-button (click)="onPointsSubmit()" [disabled]="!pointsForm.valid">
           Submit
         </button>
         <button class="!bg-red-500" mat-flat-button (click)="onUnanswered()">
@@ -140,3 +103,4 @@ player2Score = player2Score$ | async; @let winner = winner$ | async;
 
   }
 </div>
+}

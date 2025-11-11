@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Game } from '../../../local-storage/models/game.model';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { QuestionGameState } from './store/question-game.state';
 import { AsyncPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,6 +29,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { AnniversaryPopupComponent } from './anniversary-pop-up/anniversary-popup.component';
 
 export interface PointsFormModel {
   answerPoints: FormControl<number | null>;
@@ -45,6 +46,7 @@ export interface PointsFormModel {
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    AnniversaryPopupComponent
   ],
   templateUrl: './question-game.component.html',
 })
@@ -86,6 +88,8 @@ export class QuestionGameComponent implements OnInit {
   playerQuestions = new FormGroup({
     questions: new FormArray<FormControl<string | null>>([]),
   });
+
+  showPopup$ = new BehaviorSubject<boolean>(true);
 
   pointsForm: FormGroup<PointsFormModel> = this.fb.group({
     answerPoints: new FormControl<number>(1, [
@@ -142,5 +146,9 @@ export class QuestionGameComponent implements OnInit {
 
   onUnoReverse() {
     this.store.dispatch(new UnoReverseUsed());
+  }
+
+  onPopupClose() {
+    this.showPopup$.next(false);
   }
 }
